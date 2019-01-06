@@ -185,6 +185,70 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-call-apply" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2018/10/06/call-apply/">关于call、apply、bind的一些理解</a>
+    </h1>
+  
+
+        
+        <a href="/blog/2018/10/06/call-apply/" class="archive-article-date">
+  	<time datetime="2018-10-06T10:21:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><b>1.call、apply、bind的介绍</b></p>
+</blockquote>
+<p>call,apply和bind方法都是Function.prototype上的方法，而在js中所有的函数都是Function的实例，所以我们可以通过链式直接调用。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;...&#125; </span><br><span class="line">fn.call(obj)</span><br></pre></td></tr></table></figure></p>
+        
+          <a class="article-more-a" href="/blog/2018/10/06/call-apply/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/blog/2018/10/06/call-apply/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-mongoose-date" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -447,74 +511,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/blog/2018/04/20/interview-questions-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-check2power" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2018/03/15/check2power/">判断一个数字是2的几次方幂</a>
-    </h1>
-  
-
-        
-        <a href="/blog/2018/03/15/check2power/" class="archive-article-date">
-  	<time datetime="2018-03-15T10:02:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>1.使用位运算来判断一个数字是不是2的n次方幂</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkNumber</span>(<span class="params">number</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">isNaN</span>(number))&#123;</span><br><span class="line">        <span class="keyword">return</span> (num &gt; <span class="number">0</span>) &amp;&amp; ((num &amp; (num - <span class="number">1</span>)) == <span class="number">0</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">'Type Error: The type must be a number'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/blog/2018/03/15/check2power/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">位运算</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/blog/2018/03/15/check2power/">展开全文 >></a>
         </p>
       
 

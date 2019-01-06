@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://zhengzhp.github.io/blog">
-  <title>Zheng&#39;s Blog</title>
+  <title>关于call、apply、bind的一些理解 | Zheng&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zheng&#39;s Blog">
-<meta property="og:url" content="https://zhengzhp.github.io/blog/page/2/index.html">
+  <meta name="description" content="1.call、apply、bind的介绍  call,apply和bind方法都是Function.prototype上的方法，而在js中所有的函数都是Function的实例，所以我们可以通过链式直接调用。12function fn()&amp;#123;...&amp;#125; fn.call(obj)">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于call、apply、bind的一些理解">
+<meta property="og:url" content="https://zhengzhp.github.io/blog/2018/10/06/call-apply/index.html">
 <meta property="og:site_name" content="Zheng&#39;s Blog">
+<meta property="og:description" content="1.call、apply、bind的介绍  call,apply和bind方法都是Function.prototype上的方法，而在js中所有的函数都是Function的实例，所以我们可以通过链式直接调用。12function fn()&amp;#123;...&amp;#125; fn.call(obj)">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-06T13:01:01.935Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zheng&#39;s Blog">
+<meta name="twitter:title" content="关于call、apply、bind的一些理解">
+<meta name="twitter:description" content="1.call、apply、bind的介绍  call,apply和bind方法都是Function.prototype上的方法，而在js中所有的函数都是Function的实例，所以我们可以通过链式直接调用。12function fn()&amp;#123;...&amp;#125; fn.call(obj)">
   
     <link rel="alternative" href="/atom.xml" title="Zheng&#39;s Blog" type="application/atom+xml">
   
@@ -183,22 +188,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-check2power" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-call-apply" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2018/03/15/check2power/">判断一个数字是2的几次方幂</a>
+    <h1 class="article-title" itemprop="name">
+      关于call、apply、bind的一些理解
     </h1>
   
 
         
-        <a href="/blog/2018/03/15/check2power/" class="archive-article-date">
-  	<time datetime="2018-03-15T10:02:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
+        <a href="/blog/2018/10/06/call-apply/" class="archive-article-date">
+  	<time datetime="2018-10-06T10:21:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-06</time>
 </a>
         
       </header>
@@ -206,14 +209,78 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>1.使用位运算来判断一个数字是不是2的n次方幂</p>
+<p><b>1.call、apply、bind的介绍</b></p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkNumber</span>(<span class="params">number</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">isNaN</span>(number))&#123;</span><br><span class="line">        <span class="keyword">return</span> (num &gt; <span class="number">0</span>) &amp;&amp; ((num &amp; (num - <span class="number">1</span>)) == <span class="number">0</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">'Type Error: The type must be a number'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/blog/2018/03/15/check2power/#more">more >></a>
-        
+<p>call,apply和bind方法都是Function.prototype上的方法，而在js中所有的函数都是Function的实例，所以我们可以通过链式直接调用。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;...&#125; </span><br><span class="line">fn.call(obj)</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<blockquote>
+<p><b>2.call、apply、bind的作用</b></p>
+</blockquote>
+<p>JavaScript中函数调用的时候我们可能需要改变当前上下文，也就是改变this指向我们需要的对象。</p>
+<p>也就是说我们想要让函数可以被其他对象来调用，可以使用call、apply来改变this指向。</p>
+<blockquote>
+<p><b>3.call、apply、bind的区别</b></p>
+</blockquote>
+<p>call和apply的作用是一样的，都是改变js的指向，并且执行方法，bind只是修改this指向并不会直接调用函数，需要在使用时手动调用，三者在参数传递上也稍有不同。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">num1</span>: <span class="number">10</span>,<span class="attr">num2</span>: <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num3</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.num1+<span class="keyword">this</span>.num2+num3)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add.call(obj,<span class="number">1</span>) <span class="comment">// 16</span></span><br><span class="line">add.apply(obj,[<span class="number">2</span>]) <span class="comment">//17</span></span><br><span class="line"><span class="keyword">var</span> t = add.bind(obj,<span class="number">3</span>)</span><br><span class="line">t() <span class="comment">//18</span></span><br></pre></td></tr></table></figure></p>
+<p>在普通模式下this默认指向window,在严格模式模式下this是undefined</p>
+<p>如果在文件开头声明:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span></span><br></pre></td></tr></table></figure></p>
+<p>传入null/undefined时会有所区别<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn.call() <span class="comment">// this是undefined</span></span><br><span class="line">fn.call(<span class="literal">null</span>) <span class="comment">// this是null</span></span><br><span class="line">fn.call(<span class="literal">undefined</span>) <span class="comment">// this是undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>以上在普通模式下this都是指向window</p>
+<p>参考链接:<br><a href="https://www.jianshu.com/p/00dc4ad9b83f" target="_blank" rel="noopener">JavaScript中的call、apply、bind深入理解</a><br><a href="https://blog.csdn.net/yaojxing/article/details/71942496" target="_blank" rel="noopener">js中call,apply和bind方法的区别和使用场景</a><br><a href="https://www.cnblogs.com/ssh-007/p/5223483.html" target="_blank" rel="noopener">使用另一种方式实现js中Function的调用(call/apply/bind)</a><br><a href="https://blog.csdn.net/business122/article/details/8000676" target="_blank" rel="noopener">Js apply()使用详解</a><br><br></p>
+<blockquote>
+<p><b>4.传入参数为原始值时(数字，字符串，布尔值)，this的指向问题</b></p>
+</blockquote>
+<p>问题源于我在网上找了一段参数拼接的代码，以下是代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseParam</span>(<span class="params">param, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> paramStr = <span class="string">''</span></span><br><span class="line">  <span class="keyword">if</span> (param <span class="keyword">instanceof</span> <span class="built_in">String</span> || param <span class="keyword">instanceof</span> <span class="built_in">Number</span> || param <span class="keyword">instanceof</span> <span class="built_in">Boolean</span>) &#123;</span><br><span class="line">    paramStr += <span class="string">`&amp;<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;<span class="built_in">encodeURIComponent</span>(param)&#125;</span>`</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $.each(param, <span class="function"><span class="keyword">function</span> (<span class="params">i</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> k = key == <span class="literal">null</span> ? i : key + (param <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? <span class="string">`[<span class="subst">$&#123;i&#125;</span>]`</span> : <span class="string">`.<span class="subst">$&#123;i&#125;</span>`</span>)</span><br><span class="line">      paramStr += <span class="string">`&amp;<span class="subst">$&#123;parseParam(<span class="keyword">this</span>, k)&#125;</span>`</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> paramStr.substr(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">parseParam(&#123;<span class="attr">name</span>:<span class="number">1</span>,<span class="attr">time</span>:<span class="string">'2018'</span>&#125;) <span class="comment">//返回"name=1&amp;time=2018"</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码本身没有问题，问题在于使用了$.each，而我在项目中并没有引入jQuery.js所以我改动了一下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.keys(param).forEach(<span class="function">(<span class="params">i</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> k = key == <span class="literal">null</span> ? i : key + (param <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? <span class="string">`[<span class="subst">$&#123;i&#125;</span>]`</span> : <span class="string">`.<span class="subst">$&#123;i&#125;</span>`</span>)</span><br><span class="line">  paramStr += <span class="string">`&amp;<span class="subst">$&#123;parseParam(param[i], k)&#125;</span>`</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>运行代码却直接卡死，parseParam函数一直在递归指执行 (慎用递归啊!)，因为只有一个判断条件所以问题很明显是instanceof的类型判断没有正确执行。调试过程中我发现$.each中的this并不是我想象中的value，打印出来的是<b>Number {1}</b>，这是js中primitive type(原始类型)。</p>
+<p>我只好去看了下jQuery这部分源码，以下是部分代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isObj) &#123;   </span><br><span class="line">  <span class="keyword">for</span> (name <span class="keyword">in</span> object) &#123;   </span><br><span class="line">    <span class="keyword">if</span> (callback.call(object[name], name, object[name]) === <span class="literal">false</span>) &#123;     </span><br><span class="line">      <span class="keyword">break</span>;   </span><br><span class="line">    &#125;   </span><br><span class="line">  &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出代码里面使用了call来返回参数，然后再去MDN翻下文档发现有这么一段描述 <b>同时值为原始值(数字，字符串，布尔值)的this会指向该原始值的自动包装对象。</b>所以我们只要稍微改下代码就可以实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseParam</span>(<span class="params">param, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> paramStr = <span class="string">''</span></span><br><span class="line">  <span class="keyword">if</span> (param <span class="keyword">instanceof</span> <span class="built_in">String</span> || param <span class="keyword">instanceof</span> <span class="built_in">Number</span> || param <span class="keyword">instanceof</span> <span class="built_in">Boolean</span>) &#123;</span><br><span class="line">    paramStr += <span class="string">`&amp;<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;<span class="built_in">encodeURIComponent</span>(param)&#125;</span>`</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 通过call返回参数类型对象内部的原始值 [[PrimitiveValue]]</span></span><br><span class="line">    <span class="keyword">let</span> t = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span> &#125;</span><br><span class="line">    <span class="built_in">Object</span>.keys(param).forEach(<span class="function">(<span class="params">i</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> k = key == <span class="literal">null</span> ? i : key + (param <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? <span class="string">`[<span class="subst">$&#123;i&#125;</span>]`</span> : <span class="string">`.<span class="subst">$&#123;i&#125;</span>`</span>)</span><br><span class="line">      paramStr += <span class="string">`&amp;<span class="subst">$&#123;parseParam(t.call(param[i]), k)&#125;</span>`</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> paramStr.substr(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">parseParam(&#123;<span class="attr">name</span>:<span class="number">1</span>,<span class="attr">time</span>:<span class="string">'2018'</span>&#125;) <span class="comment">//返回"name=1&amp;time=2018"</span></span><br></pre></td></tr></table></figure></p>
+<p>参考链接:<br><a href="https://www.jianshu.com/p/9319e39dae0f" target="_blank" rel="noopener">JavaScript-变量-原始类型primitive type</a><br><a href="https://www.cnblogs.com/Fooo/archive/2011/01/11/1932900.html" target="_blank" rel="noopener">jQuery源码分析-each函数</a></p>
+<blockquote>
+<p><b>5.call、apply的应用</b></p>
+</blockquote>
+<p>将伪数组转为数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// es5默认参数arguments转数组</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// "[object HTMLCollection]" dom元素转数组，IE6~8存在兼容问题</span></span><br><span class="line"><span class="keyword">var</span> list =  <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>)</span><br><span class="line"><span class="built_in">Array</span>.prototype.slice.call(list)</span><br></pre></td></tr></table></figure></p>
+<p>判断数据类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call(obj)</span><br></pre></td></tr></table></figure></p>
+<p>求数组的最大值和最小值，第一个参数传null是没有对象去调用这个方法。<br>这里利用的是apply会将数组默认的转换为一个参数列表(([param1,param2])=&gt;(param1,param2)的特性<br>*<em>apply传入数组会将数组解析为一个一个的参数</em><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.max.apply(<span class="literal">null</span>, array) </span><br><span class="line"><span class="built_in">Math</span>.min.apply(<span class="literal">null</span>, array)</span><br></pre></td></tr></table></figure></p>
+<p>同理也可以拿来做数组合并<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.push.apply(arr1,arr2)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><b>6.call深入理解</b><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`fn1:console <span class="subst">$&#123;<span class="keyword">this</span>.prototype.num()&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line">fn2.prototype.num = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Number</span>(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`fn2:console <span class="subst">$&#123;fn2.prototype.num()&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>输出1:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn1.call(fn2) <span class="comment">//fn1:console 2</span></span><br></pre></td></tr></table></figure></p>
+<p>首先会通过fn1找到Function.prototype上的call方法，并且执行call方法把fn1里面的this指向变为fn2，然后执行fn1。</p>
+<p>此时fn1的this指向fn2，fn2的this指向window或undefined</p>
+<p>new的时候也会改变this<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fuc = <span class="keyword">new</span> fn2</span><br><span class="line"><span class="comment">//new的时候，函数内部会声明</span></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">this</span> = <span class="built_in">Object</span>.create(fn2.prototype)</span><br><span class="line"><span class="comment">//改变this指向</span></span><br><span class="line"><span class="comment">//即 fn2.prototype.num === fuc.num</span></span><br></pre></td></tr></table></figure></p>
+<p>输出2:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn1.call.call(fn2) <span class="comment">//fn2:console 2</span></span><br></pre></td></tr></table></figure></p>
+<p>这个就有点复杂了，看了好几遍才算弄明白，下面讲下我的理解</p>
+<p>开始还是通过fn1找到Function.prototype上的call方法然后再找到call原型链上的call方法，原型链的指向应该是这样的Function.prototype.call.constructor.prototype.call，我们可以比较一下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span> === <span class="built_in">Function</span>.prototype.call.constructor <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.call.constructor.prototype.call === <span class="built_in">Function</span>.prototype.call <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>也就是说两个call指向的是同一个方法，我们现在把fn1.call.call(fn2)拆分下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t = fn1.call</span><br><span class="line">t.call(fn2)</span><br></pre></td></tr></table></figure></p>
+<p>现在call中this指向t，调用call方法会把t的this改为fn2，然后执行t(fn1.call)也就相当于fn2()<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn1.call.call(fn2)-&gt;t.call(fn2)-&gt;fn2()</span><br></pre></td></tr></table></figure></p>
+<p>两个以上的call，第一个必须为参数为函数并且直接执行后改变前面this指向</p>
+<p>可以多看看下面的文章<br>参考链接<br><a href="https://www.cnblogs.com/wumi/p/9538964.html" target="_blank" rel="noopener">js关于“call方法”百度，阿里超难面试题</a></p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -224,10 +291,6 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">位运算</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
         		</li>
       		
@@ -237,136 +300,74 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/blog/2018/03/15/check2power/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://zhengzhp.github.io/blog/2018/10/06/call-apply/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
 
-
-
-
-
   
-    <article id="post-bit-operation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2018/03/14/bit-operation/">位运算1</a>
-    </h1>
   
-
-        
-        <a href="/blog/2018/03/14/bit-operation/" class="archive-article-date">
-  	<time datetime="2018-03-14T10:36:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="位运算存储"><a href="#位运算存储" class="headerlink" title="位运算存储"></a>位运算存储</h3><p>&emsp;&emsp;年前做项目的时候发现项目中有不少地方用到了位运算来简化代码，最为一个有（2）志（b）青年就想深入了解下。在跟我老大讨论的过程中，老大说可以利用位运算来存储信息，让我这等渣渣万万没想到还有这种操作，于是便用代码实现了下。</p>
-<p>*<em>此方法只适用于数据信息较少时,减少存储但是增加计算量</em></p>
-<p><a href="http://www.w3school.com.cn/js/pro_js_operators_bitwise.asp" target="_blank" rel="noopener">位运算相关资料</a></p>
-<p><b>当你要做一个多选的功能就可以利用位运算来生成数字串来存储，下面就是一个多选的例子，核心思路就是用位运算生成一个可以逆向解析的数字</b></p>
-        
-          <a class="article-more-a" href="/blog/2018/03/14/bit-operation/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">位运算</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/blog/2018/03/14/bit-operation/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
+    <a href="/blog/2018/10/02/mongoose-date/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mongoose存储时间的问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
-    <article id="post-preface" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2017/07/10/preface/">序言</a>
-    </h1>
-  
-
-        
-        <a href="/blog/2017/07/10/preface/" class="archive-article-date">
-  	<time datetime="2017-07-10T12:39:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="当我沉默着的时候，我觉得充实；我将开口，同时感到空虚。"><a href="#当我沉默着的时候，我觉得充实；我将开口，同时感到空虚。" class="headerlink" title="当我沉默着的时候，我觉得充实；我将开口，同时感到空虚。"></a>当我沉默着的时候，我觉得充实；我将开口，同时感到空虚。</h3><blockquote>
-<p>想写博客的想法早在16年年初萌生却迟迟没有实现，原因有很多如: </p>
-</blockquote>
-        
-          <a class="article-more-a" href="/blog/2017/07/10/preface/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/blog/2017/07/10/preface/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
+</nav>
 
 
 
@@ -374,9 +375,10 @@
 
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blog/">&laquo; Prev</a><a class="page-number" href="/blog/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
   
 
 
@@ -399,8 +401,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
